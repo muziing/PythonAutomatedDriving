@@ -12,9 +12,9 @@ Python codes for automated driving algorithms.
 2. Get source code by one of the following methods 通过以下方式之一获取源码：
     - [Download code zip 下载代码压缩包](https://github.com/muziing/PythonAutomatedDriving/archive/refs/heads/main.zip)
     - (For development only) Git clone
-        > git clone https://github.com/muziing/PythonAutomatedDriving.git
+      > git clone https://github.com/muziing/PythonAutomatedDriving.git
 3. Go to the project directory 进入项目目录
-    > cd /your/path/to/PythonAutomatedDriving
+   > cd /your/path/to/PythonAutomatedDriving
 
 ### 2. (Optional) Creating Virtual Environments 创建并激活虚拟环境（可选）
 
@@ -24,11 +24,19 @@ Python codes for automated driving algorithms.
 
 ### 4. Run! 运行！
 
-Execute Python script in each directory. 
+Execute Python script in each directory.
 
 在每个子项目目录中运行 Python 脚本。
 
 ## Table of Contents 目录
+
+### [AuxiliaryFunctions](AuxiliaryFunctions) 辅助函数
+
+- [curvature](AuxiliaryFunctions/curvature.py)  计算曲率
+
+### [LocalPathPlanning](LocalPathPlanning) 局部路径规划
+
+- [FSAE Path Planning](LocalPathPlanning/FSAE_PathPlanning)  适用于 FSAE 无人赛车高速循迹项目的路径规划算法
 
 ## License 许可协议
 
