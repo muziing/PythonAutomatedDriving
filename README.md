@@ -1,44 +1,59 @@
-# Automated Driving 自动驾驶算法
-
+<h1 align="center">
+Automated driving algorithms
+</h1>
+<p align="center">
 Python codes for automated driving algorithms.
+</p>
+<p align="center">
+English | <a href="README_zh.md">简体中文</a>
+</p>
 
-自动驾驶相关算法代码仓库，Python 语言版。
+## How to use
 
-## How to use 如何使用
+### 1. Get source code
 
-### 1. Get source code 获取源码
+1. Add star to this repo if you like it :smiley:
+2. Get source code by one of the following methods
+    - [Download code zip](https://github.com/muziing/PythonAutomatedDriving/archive/refs/heads/main.zip)
+    - (For development only) clone repo `git clone https://github.com/muziing/PythonAutomatedDriving.git`
+3. Go to the project directory `cd /your/path/to/PythonAutomatedDriving`
 
-1. Add star to this repo if you like it :smiley: 收藏本仓库
-2. Get source code by one of the following methods 通过以下方式之一获取源码：
-    - [Download code zip 下载代码压缩包](https://github.com/muziing/PythonAutomatedDriving/archive/refs/heads/main.zip)
-    - (For development only) Git clone
-      > git clone https://github.com/muziing/PythonAutomatedDriving.git
-3. Go to the project directory 进入项目目录
-   > cd /your/path/to/PythonAutomatedDriving
+### 2. Creating Virtual Environment and Install requirements
 
-### 2. (Optional) Creating Virtual Environments 创建并激活虚拟环境（可选）
+**Option A**: venv & pip
 
-### 3. Install requirements 安装依赖项
+1. Ensure that the Python version matches the one required in [pyproject.toml](./pyproject.toml).
+2. Create virtual environment
+    - Windows: `python -m venv --upgrade-deps venv`
+    - Linux/macOS: `python3 -m venv --upgrade-deps venv`
+3. Activate virtual environment
+    - Windows: `venv\Scripts\activate`
+    - Linux/macOS: `. venv/bin/activate`
+4. Install the requirements `pip install -r requirements.txt`
 
-推荐使用 [Poetry](https://python-poetry.org/)
+**Option B**: [Poetry](https://python-poetry.org)
 
-### 4. Run! 运行！
+**Option C**: [Anaconda](https://www.anaconda.com/)
+
+````shell
+conda env create -f requirements/environment.yml
+````
+
+### 3. Run!
 
 Execute Python script in each directory.
 
-在每个子项目目录中运行 Python 脚本。
+## Table of Contents
 
-## Table of Contents 目录
+### [AuxiliaryFunctions](AuxiliaryFunctions)
 
-### [AuxiliaryFunctions](AuxiliaryFunctions) 辅助函数
+- [curvature](AuxiliaryFunctions/curvature.py)  calculate curvature
 
-- [curvature](AuxiliaryFunctions/curvature.py)  计算曲率
-
-### [LocalPathPlanning](LocalPathPlanning) 局部路径规划
+### [LocalPathPlanning](LocalPathPlanning)
 
 - [FSAE Path Planning](LocalPathPlanning/FSAE_PathPlanning)  适用于 FSAE 无人赛车高速循迹项目的路径规划算法
 
-## License 许可协议
+## License
 
 ````text
 Copyright 2022 muzing
