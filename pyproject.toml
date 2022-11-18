@@ -2,8 +2,14 @@
 name = "Python_Automated_Driving"
 version = "0.1.0"
 description = "Python codes for automated driving algorithms."
+keywords = ["automated-driving", "algorithms"]
 authors = ["muzing <muzi2001@foxmail.com>"]
-readme = "README.md"
+license = "Apache-2.0"
+readme = ["README.md", "README_zh.md"]
+repository = "https://github.com/muziing/PythonAutomatedDriving"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/muziing/PythonAutomatedDriving/issues"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4"
@@ -11,18 +17,18 @@ numpy = "^1.23.0"
 scipy = "^1.9.0"
 matplotlib = "^3.6.0"
 
-
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 isort = "^5.10.0"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.black]
 line-length = 88
+target-version = ['py310']
 
 [tool.isort]
 profile = "black"
 line_length = 88
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
