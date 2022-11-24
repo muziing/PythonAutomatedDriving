@@ -1,8 +1,13 @@
 """
+Local path planning algorithm for FSAE race car.
+author: muzing <muzi2001@foxmail.com>
+doc: https://github.com/muziing/PythonAutomatedDriving
+
 原始数据处理：对原始锥桶数据进行整理处理；
 边界线拟合：由离散的锥桶位置拟合出连续平滑的车道边界线；
 局部路径规划：以外侧车道线向内平移适当距离作为期望路径；
 """
+
 import math
 
 import numpy as np
@@ -14,7 +19,7 @@ def get_traffic_cone_matrix(raw_data_matrix: np.ndarray, color: int) -> np.ndarr
     """
     处理原始数据，返回特定类型的锥桶位置矩阵 \n
     :param raw_data_matrix: 由传感器返回的原始数据矩阵
-    :param color: 锥桶类型（颜色），2-红 11-蓝 13-黄
+    :param color: 锥桶颜色类型，2-红 11-蓝 13-黄
     :return: 锥桶位置矩阵
     """
 
@@ -25,12 +30,12 @@ def get_traffic_cone_matrix(raw_data_matrix: np.ndarray, color: int) -> np.ndarr
 
     traffic_cone = traffic_cone[np.lexsort(traffic_cone[:, ::-1].T)]  # 按x坐标排序
     # traffic_cone = traffic_cone[0:5, :]  # 出于求解性能之考虑，抛弃第5个点之外的点（最高为4阶贝塞尔曲线）
-    clean_traffic_cone = traffic_cone_filter(traffic_cone)  # 剔除异常的锥桶
+    clean_traffic_cone = filter_traffic_cone(traffic_cone)  # 剔除异常的锥桶
 
     return clean_traffic_cone
 
 
-def traffic_cone_filter(traffic_cone: np.ndarray) -> np.ndarray:
+def filter_traffic_cone(traffic_cone: np.ndarray) -> np.ndarray:
     """
     过滤剔除异常的锥桶 \n
     :param traffic_cone: 按序排列的锥桶位置矩阵
@@ -72,34 +77,35 @@ def local_path_fitting(
     局部路径规划算法 \n
     :param traffic_cone_l: 左侧锥桶坐标
     :param traffic_cone_r: 右侧锥桶坐标
-    :param interpolation_num: 插值点的数量（用于平滑曲线）
+    :param interpolation_num: 贝塞尔曲线插值点的数量（用于平滑曲线）
     :param translation_dis: 只有单侧锥桶时，向内平移的距离，[m]
-    :return: 规划后的路径
+    :return: 期望路径
     """
 
     # 只能看到一侧锥桶时，直接对该侧进行平滑拟合、平移固定距离
     if traffic_cone_l.size == 0:
-        smooth_points = get_bezier_line(traffic_cone_r, interpolation_num)
-        translation = get_translation(smooth_points, "l", translation_dis)
+        bezier_points = get_bezier_curve(traffic_cone_r, interpolation_num)
+        translation_points = get_translation(bezier_points, "l", translation_dis)
     elif traffic_cone_r.size == 0:
-        smooth_points = get_bezier_line(traffic_cone_l, interpolation_num)
-        translation = get_translation(smooth_points, "r", translation_dis)
+        bezier_points = get_bezier_curve(traffic_cone_l, interpolation_num)
+        translation_points = get_translation(bezier_points, "r", translation_dis)
     else:
         # 能看到两侧锥桶时，以x方向延伸更远的一侧为主，进行平滑拟合、平移距离由计算出的路宽决定
         if traffic_cone_l[-1, 0] > traffic_cone_r[-1, 0]:
-            smooth_points = get_bezier_line(traffic_cone_l, interpolation_num)
-            road_width = get_road_width(smooth_points, traffic_cone_r)
-            translation = get_translation(smooth_points, "r", road_width / 2)
+            bezier_points = get_bezier_curve(traffic_cone_l, interpolation_num)
+            road_width = get_road_width(bezier_points, traffic_cone_r)
+            translation_points = get_translation(bezier_points, "r", road_width / 2)
         else:
-            smooth_points = get_bezier_line(traffic_cone_r, interpolation_num)
-            road_width = get_road_width(smooth_points, traffic_cone_l)
-            translation = get_translation(smooth_points, "l", road_width / 2)
+            bezier_points = get_bezier_curve(traffic_cone_r, interpolation_num)
+            road_width = get_road_width(bezier_points, traffic_cone_l)
+            translation_points = get_translation(bezier_points, "l", road_width / 2)
 
-    path_points = smooth_points + translation
+    path_points = bezier_points + translation_points
+
     return path_points
 
 
-def get_bezier_line(points: np.ndarray, interpolation_num: int = 25) -> np.ndarray:
+def get_bezier_curve(points: np.ndarray, interpolation_num: int = 25) -> np.ndarray:
     """
     计算贝塞尔曲线 \n
     ref: https://zhuanlan.zhihu.com/p/409585038 \n
