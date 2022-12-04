@@ -7,11 +7,10 @@ import numpy as np
 
 def calculate_curvature(points: np.ndarray) -> float:
     """
-    计算曲率半径 \n
+    曲率半径计算函数 \n
     ref: https://github.com/Pjer-zhang/PJCurvature \n
-
     :param points: 三个点的坐标
-    :return: 曲率半径与法线方向
+    :return: 曲率半径
     """
 
     x = points[:, 0]
@@ -26,4 +25,5 @@ def calculate_curvature(points: np.ndarray) -> float:
     b = np.matmul(np.linalg.inv(m), y)
 
     kappa = 2 * (a[2] * b[1] - b[2] * a[1]) / (a[1] ** 2.0 + b[1] ** 2.0) ** 1.5
+
     return kappa
