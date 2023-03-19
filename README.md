@@ -33,10 +33,16 @@ English | <a href="README_zh.md">简体中文</a>
 
 **Option B**: [Poetry](https://python-poetry.org)
 
+1. Make sure the Python version is the same as required in [pyproject.toml](./pyproject.toml).
+2. Install Poetry as instructed in the [official documentation](https://python-poetry.org/docs/#installation).
+3. Create a virtual environment: `poetry env use /full/path/to/python`
+4. Install dependencies: `poetry install --no-dev`
+5. Use the virtual environment: `poetry shell` (or configure it in an IDE like PyCharm).
+
 **Option C**: [Anaconda](https://www.anaconda.com/)
 
 ````shell
-conda env create -f requirements/environment.yml
+conda env create -f environment.yml
 ````
 
 ### 3. Run!
@@ -56,7 +62,7 @@ Execute Python script in each directory.
 ## License
 
 ````text
-Copyright 2022 muzing
+Copyright 2022-2023 muzing
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

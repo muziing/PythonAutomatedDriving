@@ -1,6 +1,6 @@
 contourpy==1.0.7 ; python_version >= "3.9" and python_version < "3.12"
 cycler==0.11.0 ; python_version >= "3.9" and python_version < "3.12"
-fonttools==4.39.0 ; python_version >= "3.9" and python_version < "3.12"
+fonttools==4.39.2 ; python_version >= "3.9" and python_version < "3.12"
 importlib-resources==5.12.0 ; python_version >= "3.9" and python_version < "3.10"
 kiwisolver==1.4.4 ; python_version >= "3.9" and python_version < "3.12"
 matplotlib==3.7.1 ; python_version >= "3.9" and python_version < "3.12"

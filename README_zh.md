@@ -42,7 +42,7 @@
 **方式 C**：[Anaconda](https://www.anaconda.com/)
 
 ````shell
-conda env create -f requirements/environment.yml
+conda env create -f environment.yml
 ````
 
 ### 三、运行！
@@ -62,7 +62,7 @@ conda env create -f requirements/environment.yml
 ## 许可协议
 
 ````text
-Copyright 2022 muzing
+Copyright 2022-2023 muzing
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
