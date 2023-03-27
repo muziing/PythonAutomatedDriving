@@ -9,9 +9,10 @@ doc: https://github.com/muziing/PythonAutomatedDriving
 """
 
 import math
+import sys
 
 import numpy as np
-from scipy.spatial.distance import cdist
+from scipy.spatial.distance import cdist, euclidean
 from scipy.special import comb
 
 
@@ -28,11 +29,60 @@ def get_traffic_cone_matrix(raw_data_matrix: np.ndarray, color: int) -> np.ndarr
     if traffic_cone.size < 4:  # 若只有单个锥桶，则直接返回
         return traffic_cone
 
-    traffic_cone = traffic_cone[np.lexsort(traffic_cone[:, ::-1].T)]  # 按x坐标排序
-    # traffic_cone = traffic_cone[0:5, :]  # 出于求解性能之考虑，抛弃第5个点之外的点（最高为4阶贝塞尔曲线）
-    clean_traffic_cone = filter_traffic_cone(traffic_cone)  # 剔除异常的锥桶
+    sorted_traffic_cone = sort_traffic_cone(traffic_cone, mode=0)  # 使用排序算法排序
+    # sorted_traffic_cone = sorted_traffic_cone[0:5, :]  # 出于求解性能之考虑，抛弃第5个点之外的点（最高为4阶贝塞尔曲线）
+    clean_traffic_cone = filter_traffic_cone(sorted_traffic_cone)  # 剔除异常的锥桶
 
     return clean_traffic_cone
+
+
+def sort_traffic_cone(traffic_cone: np.ndarray, mode: int = 0) -> np.ndarray:
+    """
+    对锥桶坐标列表进行排序 \n
+    :param traffic_cone: 待排序的锥桶位置矩阵
+    :param mode: 选用的排序方式
+    :return: 排序后的锥桶位置矩阵
+    """
+
+    sorted_cones = np.zeros_like(traffic_cone)  # 最终排序好的坐标矩阵
+
+    if mode == 0:
+        # 方式一：按x坐标排序
+        sorted_cones = traffic_cone[np.lexsort(traffic_cone[:, ::-1].T)]
+    elif mode == 1:
+        # 方式二：距离第1个锥桶最近的为第2个锥桶，距离第2个锥桶最近的为第3个锥桶……以此类推
+        # 创建变量
+        sorted_index = list()  # 存储所有已排序锥桶的索引
+        unsorted_index = list(range(traffic_cone.shape[0]))  # 还未排序的所有锥桶的索引
+        min_distance = sys.maxsize  # 以极大的数初始化最小距离，避免干扰
+        index_flag = -1
+        counter = 0
+
+        # 找到第1个锥桶
+        fist_cone_index = np.argmin(traffic_cone[:, 0])  # x坐标最小的作为首个锥桶
+        sorted_index.append(fist_cone_index)
+        unsorted_index.remove(fist_cone_index)
+
+        # 距离第1个锥桶最近的为第2个锥桶，距离第2个锥桶最近的为第3个锥桶……以此类推
+        while unsorted_index:
+            for index in unsorted_index:
+                # 计算欧几里德距离
+                distance = euclidean(
+                    traffic_cone[index, :], traffic_cone[sorted_index[-1], :]
+                )
+                if distance < min_distance:
+                    min_distance = distance
+                    index_flag = index
+            sorted_index.append(index_flag)
+            unsorted_index.remove(index_flag)
+            min_distance = sys.maxsize
+
+        # 按排序好的索引顺序拷贝数据，获得最终排序好的坐标矩阵
+        for cone in sorted_index:
+            sorted_cones[counter] = traffic_cone[cone, :]
+            counter += 1
+
+    return sorted_cones
 
 
 def filter_traffic_cone(traffic_cone: np.ndarray) -> np.ndarray:
