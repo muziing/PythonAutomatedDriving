@@ -22,6 +22,15 @@ black = "^22.12.0"
 isort = "^5.11.0"
 line-profiler = "^4.0.0"
 
+[[tool.poetry.source]]
+name = "tsinghua_mirror"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "supplemental"
+
 [tool.black]
 line-length = 88
 target-version = ['py310']
