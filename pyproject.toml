@@ -13,7 +13,7 @@ repository = "https://github.com/muziing/PythonAutomatedDriving"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
-numpy = "^1.24.0"
+numpy = "^1.25.0"
 scipy = "^1.11.0"
 matplotlib = "^3.7.0"
 jupyter = "^1.0.0"
@@ -43,6 +43,15 @@ target-version = ['py311']
 [tool.isort]
 profile = "black"
 line_length = 88
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.ruff]
+# 目前版本的 Ruff 对中文字符支持不佳，对包含中文注释的代码会误认为过长，
+# 所以需要在配置文件中设置较大的行长度。真正的行长度控制由 Black 完成
+line-length = 130
 
 [build-system]
 requires = ["poetry-core"]

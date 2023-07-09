@@ -3598,4 +3598,4 @@ reference = "tsinghua_mirror"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "ed9bc938fd0026ac84a130079a071c94ea2dcb46e4b4c49846b3dc400edd5a43"
+content-hash = "fd47ef537d2ae65b3bff07bf750370b63af2fe7b9e0ce58c810b009b776e7c79"
