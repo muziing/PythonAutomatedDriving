@@ -59,7 +59,7 @@ def sort_traffic_cone(traffic_cone: np.ndarray, mode: int = 0) -> np.ndarray:
         counter = 0
 
         # 找到第1个锥桶
-        fist_cone_index = np.argmin(traffic_cone[:, 0])  # x坐标最小的作为首个锥桶
+        fist_cone_index = int(np.argmin(traffic_cone[:, 0]))  # x坐标最小的作为首个锥桶
         sorted_index.append(fist_cone_index)
         unsorted_index.remove(fist_cone_index)
 
