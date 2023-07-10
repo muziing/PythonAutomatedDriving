@@ -7,7 +7,6 @@ from typing import Optional, Tuple
 
 import numpy as np
 import numpy.typing as npt
-
 from numpy_additional_funcs import normalize_angle
 
 
