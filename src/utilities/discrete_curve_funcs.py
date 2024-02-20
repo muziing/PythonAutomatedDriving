@@ -26,9 +26,13 @@ def find_match_point(
 
     x, y = xy_coordinate
     reference_line_length = reference_line_nodes.shape[0]
-    increase_count = 0  # 用 increase_count 记录 distance 连续增大的次数，避免多个局部最小值的干扰
+    increase_count = (
+        0  # 用 increase_count 记录 distance 连续增大的次数，避免多个局部最小值的干扰
+    )
     min_distance_square = float("inf")
-    match_point_index = start_index  # 若最后仍没有找到匹配索引，则说明起始索引已经是最佳匹配，直接返回
+    match_point_index = (
+        start_index  # 若最后仍没有找到匹配索引，则说明起始索引已经是最佳匹配，直接返回
+    )
 
     if start_index == 0:
         # 首次运行情况
@@ -130,7 +134,9 @@ def get_projection_point(
 
     # 计算投影点的位置信息
     x_r, y_r = r_m_v + ds * tau  # 计算投影点坐标
-    theta_r = normalize_angle(theta_match + kappa_match * ds)  # 计算投影点在参考线上切线与 x 轴的夹角
+    theta_r = normalize_angle(
+        theta_match + kappa_match * ds
+    )  # 计算投影点在参考线上切线与 x 轴的夹角
     kappa_r = kappa_match  # 投影点在参考线处的曲率
 
     return x_r, y_r, theta_r, kappa_r
@@ -155,7 +161,9 @@ def calculate_heading_kappa(path_points: npt.NDArray[np.float_]):
     # TODO 将填补差分的功能提取至单独的函数中
 
     points_array = np.array(path_points)
-    d_xy_ = points_array[1:, :] - points_array[:-1, :]  # 一阶差分，此种写法比 np.diff() 性能高得多
+    d_xy_ = (
+        points_array[1:, :] - points_array[:-1, :]
+    )  # 一阶差分，此种写法比 np.diff() 性能高得多
     d_xy = np.empty_like(points_array)  # 定义变量，预分配内存
     # 由于 n 个点差分得到的只有 n-1 个差分结果，所以要在首尾添加重复单元来近似求每个节点的 dx、dy
     d_xy[0, :] = d_xy_[:, :][0]
@@ -163,7 +171,9 @@ def calculate_heading_kappa(path_points: npt.NDArray[np.float_]):
     d_xy[1:-1, :] = (d_xy_[1:, :] + d_xy_[:-1, :]) / 2
 
     # 计算切线方向角 theta
-    theta = np.arctan2(d_xy[:, 1], d_xy[:, 0])  # np.arctan2 会将角度限制在 (-pi, pi)之间
+    theta = np.arctan2(
+        d_xy[:, 1], d_xy[:, 0]
+    )  # np.arctan2 会将角度限制在 (-pi, pi)之间
 
     d_theta_ = theta[1:] - theta[:-1]  # 差分，这种写法比np.diff()性能高得多
     d_theta = np.empty_like(theta)

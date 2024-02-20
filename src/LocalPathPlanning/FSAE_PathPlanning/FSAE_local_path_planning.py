@@ -235,7 +235,9 @@ if __name__ == "__main__":
     for i in range(len(test_data)):
         red = get_traffic_cone_matrix(np.array(test_data[i]), 2)  # 左侧锥桶位置矩阵
         blue = get_traffic_cone_matrix(np.array(test_data[i]), 11)  # 右侧锥桶位置矩阵
-        local_path = local_path_fitting(red, blue, translation_dis=1.5)  # 规划出的局部路径矩阵
+        local_path = local_path_fitting(
+            red, blue, translation_dis=1.5
+        )  # 规划出的局部路径矩阵
 
         row = i // 4  # 绘图布局用
         col = i % 4
